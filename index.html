@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>boninstore • Warehouse Pricelist & Terms</title>
+  <!-- Favicon & App Icon -->
+  <link rel="icon" type="image/jpeg" href="https://www.image2url.com/r2/default/images/1780648260150-0681a051-55c8-46aa-b3bb-235a653656ed.jpg">
+  <link rel="apple-touch-icon" href="https://www.image2url.com/r2/default/images/1780648260150-0681a051-55c8-46aa-b3bb-235a653656ed.jpg">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Fonts: Quicksand & Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #fff4e1;
+      --accent-rose: #d45575;
+      --accent-rose-dark: #b94260;
+      --accent-yellow: #ffcb5e;
+      --accent-lavender: #b1b0d8;
+      --accent-lavender-soft: #eeedf9;
+      --text-main: #4a3b42;
+      --text-muted: #7d6b73;
+      --card-bg: #ffffff;
+      --border-soft: #f2dfd3;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-cream);
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(255, 203, 94, 0.22) 0%, transparent 32%),
+        radial-gradient(circle at 85% 80%, rgba(177, 176, 216, 0.25) 0%, transparent 35%),
+        radial-gradient(#e8d4c3 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 22px 22px;
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, .cute-font {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+    }
+
+    .d-none {
+      display: none !important;
+    }
+
+    /* Full Page Loading */
+    #fullPageLoading {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 244, 225, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Carrd-style Container */
+    .carrd-container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* Main Bio Card */
+    .bio-card {
+      background: var(--card-bg);
+      border-radius: 32px;
+      border: 2.5px solid var(--border-soft);
+      box-shadow: 0 12px 30px rgba(212, 85, 117, 0.08);
+      padding: 2.25rem 1.75rem 1.75rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bio-banner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 86px;
+      background: linear-gradient(120deg, var(--accent-yellow) 0%, #ffdbe3 52%, var(--accent-lavender) 100%);
+      z-index: 0;
+    }
+
+    .avatar-circle {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 5px;
+      margin: 14px auto 12px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 20px rgba(212, 85, 117, 0.18);
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--accent-rose);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      overflow: hidden;
+    }
+
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .cute-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 13px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin: 3px;
+    }
+
+    .pill-rose {
+      background: #fce8ed;
+      color: var(--accent-rose);
+    }
+
+    .pill-yellow {
+      background: #fff3d6;
+      color: #9e6d08;
+    }
+
+    .pill-lavender {
+      background: var(--accent-lavender-soft);
+      color: #5b5994;
+    }
+
+    /* Bio Link Buttons */
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: #ffffff;
+      border: 2px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      color: var(--text-main);
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 0 var(--border-soft);
+      cursor: pointer;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-rose);
+      box-shadow: 0 6px 0 var(--accent-rose);
+      color: var(--accent-rose);
+    }
+
+    .link-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 0 var(--accent-rose);
+    }
+
+    .link-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* Social Icons */
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--border-soft);
+      background: #fff;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      background: var(--accent-yellow);
+      border-color: var(--accent-yellow);
+      color: var(--text-main);
+      transform: translateY(-3px) rotate(6deg);
+    }
+
+    /* Section Card */
+    .cute-card {
+      background: #ffffff;
+      border-radius: 26px;
+      border: 2px solid var(--border-soft);
+      padding: 1.4rem;
+      box-shadow: 0 8px 24px rgba(177, 176, 216, 0.14);
+      margin-bottom: 1rem;
+    }
+
+    .back-btn {
+      background: #ffffff;
+      border: 2px solid var(--border-soft);
+      color: var(--text-main);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-lavender-soft);
+      border-color: var(--accent-lavender);
+      color: #4f4d87;
+    }
+
+    /* Country Switcher Pills */
+    .sub-pill {
+      border: 2px solid var(--border-soft);
+      background: #ffffff;
+      color: var(--text-muted);
+      border-radius: 50px;
+      padding: 7px 16px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .sub-pill.active {
+      background: var(--accent-rose);
+      border-color: var(--accent-rose);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(212, 85, 117, 0.25);
+    }
+
+    /* Clean Accordion Pricelist Cards */
+    .rate-accordion-item {
+      border: 1.5px solid #f3e0d2 !important;
+      border-radius: 20px !important;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 3px 10px rgba(74, 59, 66, 0.03);
+    }
+
+    .rate-accordion-btn {
+      width: 100%;
+      background: #fffaf3;
+      border: none;
+      padding: 14px 16px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .rate-accordion-btn:hover {
+      background: #fff3e3;
+    }
+
+    .rate-accordion-btn:not(.collapsed) {
+      background: #fce8ed;
+      border-bottom: 1.5px dashed #f2cbd5;
+    }
+
+    .rate-accordion-btn .chevron-icon {
+      transition: transform 0.22s ease;
+      color: var(--accent-rose);
+      font-size: 0.9rem;
+    }
+
+    .rate-accordion-btn:not(.collapsed) .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    .price-tag {
+      background: var(--accent-yellow);
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 4px 11px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    /* Clean Key-Value Price Table */
+    .kv-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1.5px solid #f3e4d8;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      font-size: 0.84rem;
+    }
+
+    .kv-table th {
+      background: var(--accent-lavender-soft);
+      color: #4f4d87;
+      font-weight: 700;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+    }
+
+    .kv-table td {
+      padding: 8px 12px;
+      border-top: 1px solid #f5ebe3;
+      vertical-align: middle;
+    }
+
+    .kv-table td.val-col {
+      text-align: right;
+      font-weight: 700;
+      color: var(--accent-rose);
+      white-space: nowrap;
+    }
+
+    /* Sub-group title inside card */
+    .group-label {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #4f4d87;
+      background: var(--accent-lavender-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+
+    .example-callout {
+      background: #fff9eb;
+      border-left: 3.5px solid var(--accent-yellow);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .note-list {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .note-list li {
+      margin-bottom: 4px;
+    }
+
+    /* Calculator Box */
+    .calc-box {
+      background: linear-gradient(135deg, #fff8eb 0%, #f5f4fc 100%);
+      border: 2px dashed var(--accent-lavender);
+      border-radius: 22px;
+      padding: 1.25rem;
+    }
+
+    .form-control, .form-select {
+      border-radius: 14px;
+      border: 1.5px solid #e5d5cb;
+      font-size: 0.9rem;
+      padding: 9px 13px;
+      color: var(--text-main);
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent-rose);
+      box-shadow: 0 0 0 0.2rem rgba(212, 85, 117, 0.15);
+    }
+
+    /* Accordion T&C */
+    .accordion-item {
+      border: 1.5px solid var(--border-soft) !important;
+      border-radius: 18px !important;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .accordion-button {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      padding: 13px 16px;
+    }
+
+    .accordion-button:not(.collapsed) {
+      background-color: #fce8ed;
+      color: var(--accent-rose);
+      box-shadow: none;
+    }
+
+    .accordion-button:focus {
+      box-shadow: none;
+    }
+
+    .btn-rose-cute {
+      background: var(--accent-rose);
+      color: #ffffff;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 22px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 0 var(--accent-rose-dark);
+      transition: all 0.18s;
+    }
+
+    .btn-rose-cute:hover {
+      background: var(--accent-rose-dark);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .btn-rose-cute:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 0 var(--accent-rose-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Full Page Loading -->
+  <div id="fullPageLoading" class="d-none">
+    <div class="spinner-border" style="color: var(--accent-rose); width: 2.3rem; height: 2.3rem;" role="status"></div>
+    <div class="small fw-bold" id="loadingText">Memuat info warehouse...</div>
+  </div>
+
+  <!-- =========================================================
+       MAIN PUBLIC PORTFOLIO CONTAINER
+       ========================================================= -->
+  <main id="mainApp" class="carrd-container">
+
+    <!-- =======================================================
+         PAGE 1: HOME BIO LINK
+         ======================================================= -->
+    <section id="homePage" class="app-page">
+      <div class="bio-card mb-3">
+        <div class="bio-banner"></div>
+
+        <div class="avatar-circle">
+          <div class="avatar-inner">
+            <img src="https://www.image2url.com/r2/default/images/1780648260150-0681a051-55c8-46aa-b3bb-235a653656ed.jpg" alt="boninstore logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'bi bi-box2-heart-fill\'></i>';">
+          </div>
+        </div>
+
+        <h2 class="mb-1" style="color: var(--accent-rose);">boninstore ✨</h2>
+        <p class="small text-muted mb-2">based on Surabaya • est. 2020</p>
+        <p class="fw-bold mb-2" style="font-size: 0.98rem;">Your Korean, China & Thailand Warehouse Needs! 🧸</p>
+        <p class="small text-muted mx-auto mb-3" style="max-width: 460px; line-height: 1.6;">
+          Korea, China & Thailand Warehouse Service • Check Out Web • Transfer Won, Yuan, Baht & Paypal • Personal Order
+        </p>
+
+        <!-- Cute Pastel Badges -->
+        <div class="mb-3">
+          <span class="cute-pill pill-rose">🇰🇷 Korea WH</span>
+          <span class="cute-pill pill-yellow">🇨🇳 China WH</span>
+          <span class="cute-pill pill-lavender">🇹🇭 Thailand WH</span>
+        </div>
+
+        <!-- Social Media Icons -->
+        <div class="d-flex justify-content-center gap-2 pt-1">
+          <button type="button" class="social-btn" onclick="window.notifyToast('Twitter / X: @boninstore')" title="Twitter / X"><i class="bi bi-twitter-x"></i></button>
+          <button type="button" class="social-btn" onclick="window.notifyToast('Instagram: @boninstore')" title="Instagram"><i class="bi bi-instagram"></i></button>
+          <button type="button" class="social-btn" onclick="window.notifyToast('TikTok: @boninstore')" title="TikTok"><i class="bi bi-tiktok"></i></button>
+          <button type="button" class="social-btn" onclick="window.notifyToast('LINE Official Group Warehouse')" title="LINE"><i class="bi bi-line"></i></button>
+          <button type="button" class="social-btn" onclick="window.notifyToast('WhatsApp Admin Surabaya')" title="WhatsApp"><i class="bi bi-whatsapp"></i></button>
+          <button type="button" class="social-btn" onclick="window.notifyToast('Shopee: boninstore')" title="Shopee"><i class="bi bi-bag-heart-fill"></i></button>
+        </div>
+      </div>
+
+      <!-- Menu Navigation Buttons -->
+      <div class="mt-3">
+        <div class="link-btn" onclick="window.openCountryPricelist('Korea')">
+          <div class="d-flex align-items-center gap-3">
+            <div class="link-icon" style="background: #fce8ed; color: var(--accent-rose);">🇰🇷</div>
+            <div class="text-start">
+              <div class="lh-sm">Korea Warehouse Service</div>
+              <small class="text-muted fw-normal">Sharing EMS, Paper Based, Handcarry & Direct</small>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right" style="color: var(--accent-rose);"></i>
+        </div>
+
+        <div class="link-btn" onclick="window.openCountryPricelist('China')">
+          <div class="d-flex align-items-center gap-3">
+            <div class="link-icon" style="background: #fff3d6; color: #b57b05;">🇨🇳</div>
+            <div class="text-start">
+              <div class="lh-sm">China Warehouse Service</div>
+              <small class="text-muted fw-normal">Air Cargo, Handcarry, Paper Based & Doll</small>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right" style="color: var(--accent-rose);"></i>
+        </div>
+
+        <div class="link-btn" onclick="window.openCountryPricelist('Thailand')">
+          <div class="d-flex align-items-center gap-3">
+            <div class="link-icon" style="background: var(--accent-lavender-soft); color: #5b5994;">🇹🇭</div>
+            <div class="text-start">
+              <div class="lh-sm">Thailand Warehouse Service</div>
+              <small class="text-muted fw-normal">Air Cargo Express, GMMTV / Merch & Transfer Baht</small>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right" style="color: var(--accent-rose);"></i>
+        </div>
+
+        <div class="link-btn" onclick="window.showPage('calculatorPage')">
+          <div class="d-flex align-items-center gap-3">
+            <div class="link-icon" style="background: #fff3d6; color: var(--accent-rose);"><i class="bi bi-calculator-fill"></i></div>
+            <div class="text-start">
+              <div class="lh-sm">Kalkulator Estimasi Ongkir Sharing</div>
+              <small class="text-muted fw-normal">Hitung perkiraan biaya album, PC, doll, & pakaian</small>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right" style="color: var(--accent-rose);"></i>
+        </div>
+
+        <div class="link-btn" onclick="window.showPage('termsPage')">
+          <div class="d-flex align-items-center gap-3">
+            <div class="link-icon" style="background: #fce8ed; color: var(--accent-rose);"><i class="bi bi-clipboard2-heart-fill"></i></div>
+            <div class="text-start">
+              <div class="lh-sm">Syarat & Ketentuan Warehouse</div>
+              <small class="text-muted fw-normal">Wajib dibaca sebelum menggunakan alamat warehouse</small>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right" style="color: var(--accent-rose);"></i>
+        </div>
+      </div>
+
+      <!-- Mini Highlight Info -->
+      <div class="cute-card text-center mt-3" style="background: linear-gradient(135deg, #ffffff 0%, #fff8eb 100%);">
+        <div class="d-flex justify-content-center gap-2 mb-2 flex-wrap">
+          <span class="cute-pill pill-yellow">✨ Daftar WH Rp 5.000 (Sekali Bayar)</span>
+          <span class="cute-pill pill-lavender">📸 FREE Foto Arrived 3x/Minggu</span>
+        </div>
+        <p class="small text-muted mb-3">
+          Belum punya alamat warehouse? Hubungi admin untuk mendapatkan <strong>Kode Nama Penerima</strong> dan link grup update LINE.
+        </p>
+        <button type="button" class="btn btn-rose-cute" onclick="window.notifyToast('Menghubungkan ke Admin WhatsApp / LINE Boninstore...')">
+          <i class="bi bi-chat-heart-fill me-1"></i> Chat Admin Daftar Warehouse
+        </button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PAGE 2: PRICELIST WAREHOUSE (KOREA / CHINA / THAILAND)
+         ======================================================= -->
+    <section id="pricelistPage" class="app-page d-none">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <button type="button" class="back-btn" onclick="window.showPage('homePage')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <button type="button" class="back-btn" style="background: #fff3d6; border-color: var(--accent-yellow);" onclick="window.showPage('calculatorPage')">
+          <i class="bi bi-calculator"></i> Kalkulator
+        </button>
+      </div>
+
+      <div class="cute-card">
+        <div class="text-center mb-3">
+          <span class="cute-pill pill-rose mb-1" id="pricelistCountryBadge">🇰🇷 KOREA WAREHOUSE</span>
+          <h3 class="mb-1" id="pricelistTitle">Pricelist Korea Warehouse</h3>
+          <p class="small text-muted mb-0">Klik judul kategori di bawah untuk buka/tutup rincian tarif</p>
+        </div>
+
+        <!-- Country Switcher -->
+        <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
+          <button type="button" class="sub-pill active" data-country="Korea" onclick="window.openCountryPricelist('Korea')">🇰🇷 Korea</button>
+          <button type="button" class="sub-pill" data-country="China" onclick="window.openCountryPricelist('China')">🇨🇳 China</button>
+          <button type="button" class="sub-pill" data-country="Thailand" onclick="window.openCountryPricelist('Thailand')">🇹🇭 Thailand</button>
+        </div>
+
+        <!-- Search Pricelist -->
+        <div class="mb-3">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0" style="border-radius: 14px 0 0 14px; border-color: #e5d5cb;">
+              <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text" id="searchRateInput" class="form-control border-start-0" style="border-radius: 0 14px 14px 0;" placeholder="Cari tarif (misal: photocard, labubu, doll, direct, handcarry)..." oninput="window.renderPricelistContent()">
+          </div>
+        </div>
+
+        <!-- Section Loading -->
+        <div id="pricelistLoading" class="text-center py-3 d-none">
+          <div class="spinner-border spinner-border-sm" style="color: var(--accent-rose);"></div>
+          <span class="small text-muted ms-1">Memuat daftar harga dari spreadsheet...</span>
+        </div>
+
+        <!-- Dynamic Pricelist Items -->
+        <div id="pricelistItemsContainer"></div>
+
+        <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <small class="text-muted">Baca aturan lengkap sebelum kirim paket:</small>
+          <button type="button" class="btn btn-sm rounded-pill fw-bold" style="background: var(--accent-lavender-soft); color: #4f4d87;" onclick="window.showPage('termsPage')">
+            Lihat Syarat & Ketentuan →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PAGE 3: KALKULATOR ESTIMASI ONGKIR
+         ======================================================= -->
+    <section id="calculatorPage" class="app-page d-none">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <button type="button" class="back-btn" onclick="window.showPage('homePage')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <button type="button" class="back-btn" onclick="window.showPage('pricelistPage')">
+          <i class="bi bi-tags"></i> Lihat Pricelist
+        </button>
+      </div>
+
+      <div class="cute-card">
+        <div class="text-center mb-3">
+          <span class="cute-pill pill-yellow mb-1">🧮 SIMULASI BIAYA</span>
+          <h3 class="mb-1">Kalkulator Sharing Warehouse</h3>
+          <p class="small text-muted mb-0">Hitung perkiraan ongkir internasional + fee warehouse</p>
+        </div>
+
+        <div class="calc-box">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold">Negara Warehouse</label>
+              <select id="calcCountry" class="form-select" onchange="window.onCalcCountryChange()">
+                <option value="Korea">🇰🇷 Korea Warehouse</option>
+                <option value="China">🇨🇳 China Warehouse</option>
+                <option value="Thailand">🇹🇭 Thailand Warehouse</option>
+              </select>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold">Jenis Layanan / Barang</label>
+              <select id="calcType" class="form-select" onchange="window.calculateShipping()"></select>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold" id="calcInputLabel">Berat Barang (gram)</label>
+              <input type="number" id="calcQty" class="form-control" value="500" min="1" oninput="window.calculateShipping()">
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small fw-bold">Kemasan / Fee Warehouse</label>
+              <select id="calcFeeType" class="form-select" onchange="window.calculateShipping()"></select>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3 rounded-4 bg-white border text-center" style="border-color: var(--accent-yellow) !important;">
+            <div class="small text-muted mb-1">Perkiraan Total Tagihan Sharing</div>
+            <div class="fs-3 fw-bold" style="color: var(--accent-rose);" id="calcTotalDisplay">Rp 92.500</div>
+            <div class="small text-muted mt-1" id="calcBreakdownDisplay">500 gr × Rp 185/gr + Fee WH Rp 0</div>
+          </div>
+        </div>
+
+        <div class="mt-3 p-3 rounded-4 small" style="background: #fce8ed; color: var(--text-main);">
+          <strong>Catatan Perhitungan:</strong>
+          <ul class="mb-0 ps-3 mt-1">
+            <li>Photocard sharing dihitung akumulasi jumlah PC dalam 1 kali box pengiriman ke Indonesia.</li>
+            <li>Barang unsealed non-paper dapat dihitung menggunakan berat volume (P × L × T / 6 untuk EMS/Cargo, atau / 4 untuk Handcarry).</li>
+            <li>Belum termasuk ongkir lokal dari WH Surabaya ke alamat rumahmu.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PAGE 4: SYARAT & KETENTUAN WAREHOUSE
+         ======================================================= -->
+    <section id="termsPage" class="app-page d-none">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <button type="button" class="back-btn" onclick="window.showPage('homePage')">
+          <i class="bi bi-arrow-left"></i> Home
+        </button>
+        <button type="button" class="back-btn" onclick="window.showPage('pricelistPage')">
+          <i class="bi bi-tags"></i> Pricelist
+        </button>
+      </div>
+
+      <div class="cute-card">
+        <div class="text-center mb-3">
+          <span class="cute-pill pill-rose mb-1">📌 WAJIB DIBACA</span>
+          <h3 class="mb-1">Syarat & Ketentuan Warehouse</h3>
+          <p class="small text-muted mb-0">Semua poin lengkap yang dirangkum rapi agar mudah dipahami</p>
+        </div>
+
+        <!-- Ringkasan Denda & Aturan Cepat -->
+        <div class="row g-2 mb-3">
+          <div class="col-4">
+            <div class="p-2 rounded-4 text-center h-100" style="background: #fce8ed; border: 1.5px solid #f2cbd5;">
+              <div class="fw-bold" style="color: var(--accent-rose); font-size: 0.88rem;">Rp 20.000</div>
+              <div class="text-muted" style="font-size: 0.7rem;">Denda tanpa kode nama</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2 rounded-4 text-center h-100" style="background: #fff3d6; border: 1.5px solid var(--accent-yellow);">
+              <div class="fw-bold" style="color: #8a5c00; font-size: 0.88rem;">Rp 5.000</div>
+              <div class="text-muted" style="font-size: 0.7rem;">Telat form / telat bayar</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2 rounded-4 text-center h-100" style="background: var(--accent-lavender-soft); border: 1.5px solid var(--accent-lavender);">
+              <div class="fw-bold" style="color: #4f4d87; font-size: 0.88rem;">14 Hari</div>
+              <div class="text-muted" style="font-size: 0.7rem;">Maks. klaim tanpa nama</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Syarat & Ketentuan -->
+        <div class="mb-3">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0" style="border-radius: 14px 0 0 14px; border-color: #e5d5cb;">
+              <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text" id="searchTermsInput" class="form-control border-start-0" style="border-radius: 0 14px 14px 0;" placeholder="Cari aturan (misal: denda, unboxing, poster, ganti rugi, line)..." oninput="window.filterTerms()">
+          </div>
+        </div>
+
+        <!-- Accordion Syarat & Ketentuan Lengkap & Rapi -->
+        <div class="accordion" id="termsAccordion">
+
+          <!-- 1. Grup LINE & Foto Update -->
+          <div class="accordion-item term-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#termOne">
+                💬 1. Grup LINE, Foto Arrived & Klaim Paket
+              </button>
+            </h2>
+            <div id="termOne" class="accordion-collapse collapse show" data-bs-parent="#termsAccordion">
+              <div class="accordion-body small text-muted" style="line-height: 1.65;">
+                <ul class="mb-0 ps-3">
+                  <li class="mb-1"><strong>Wajib punya akun LINE:</strong> Seluruh info kedatangan & pengiriman diupdate di grup LINE. Jika ada pertanyaan silakan hubungi admin.</li>
+                  <li class="mb-1"><strong>Keaktifan Member:</strong> Jika tidak ada pengiriman ke warehouse selama <strong>1 bulan</strong>, admin berhak mengeluarkan dari grup warehouse.</li>
+                  <li class="mb-1"><strong>FREE Foto Arrived:</strong> Gratis foto saat paket tiba di WH luar negeri (Korea/China/Thailand) maupun WH Indonesia. Update foto luar negeri diberikan <strong>minimal 3x seminggu</strong>.</li>
+                  <li><strong>Paket Tanpa Nama:</strong> Batas maksimal klaim paket tanpa nama adalah <strong>14 hari</strong> setelah foto diposting di grup LINE.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Kode Nama, Alamat & Form Resi -->
+          <div class="accordion-item term-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termTwo">
+                📝 2. Kode Nama, Alamat & Wajib Isi Form Resi
+              </button>
+            </h2>
+            <div id="termTwo" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+              <div class="accordion-body small text-muted" style="line-height: 1.65;">
+                <ul class="mb-0 ps-3">
+                  <li class="mb-1"><strong>Kode Nama Penerima:</strong> Wajib dicantumkan pada paket. Tanpa kode nama dikenakan denda <strong>Rp 20.000/paket</strong>.</li>
+                  <li class="mb-1"><strong>Cek Ulang Alamat:</strong> Pastikan alamat WH sudah benar (minta foto paket ber-alamat WH ke seller bila perlu). Kesalahan alamat atau kurir salah kirim menjadi tanggung jawab pembeli.</li>
+                  <li class="mb-1"><strong>Wajib Isi Form Resi:</strong> Segera isi form resi & foto barang di grup begitu mendapat nomor tracking. Jika seller belum memberi resi, harap konfirmasi admin terlebih dahulu.</li>
+                  <li class="mb-1"><strong>Denda Telat Form:</strong> Jika paket datang lebih dulu sebelum isi form, resi akan diposting di grup agar segera diisi. Jika hingga tiba di WH Indo belum isi form, dikenakan denda <strong>Rp 5.000/resi</strong> di invoice.</li>
+                  <li><strong>Tips Photocard:</strong> Pengiriman PC <strong>&gt;10 pcs</strong> atau nominal besar wajib menggunakan <strong>box</strong> dari seller dan minta foto paket ber-alamat WH untuk mencegah hilang.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Barang Dilarang & Ketentuan Kemasan -->
+          <div class="accordion-item term-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termThree">
+                🚫 3. Barang Terlarang, Poster & Return Seller
+              </button>
+            </h2>
+            <div id="termThree" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+              <div class="accordion-body small text-muted" style="line-height: 1.65;">
+                <ul class="mb-0 ps-3">
+                  <li class="mb-1"><strong>Dilarang di Sharing EMS:</strong> Sepatu, barang mewah, Kihno Kit, Powerbank, cairan & gas, cup holder, photo frame fansite, barang pecah belah, serta barang yang dilarang peraturan impor.</li>
+                  <li class="mb-1"><strong>Kosmetik & Fashion:</strong> Hanya bisa dikirim melalui <strong>Air Cargo Reguler atau Handcarry</strong> (untuk Handcarry wajib bersedia direpack/lepas tag & lipat box).</li>
+                  <li class="mb-1"><strong>Tanpa Resi & COD:</strong> Tidak menerima paket <strong>COD (착불)</strong> maupun kurir tanpa nomor tracking (jika tetap dikirim tanpa tracking, WH hanya memberi foto bagian luar paket).</li>
+                  <li class="mb-1"><strong>Tube / Rolled Poster:</strong> Tidak menerima tube/rolled poster ukuran <strong>&gt;50 cm</strong> (jika tetap dikirim, poster akan dilipat).</li>
+                  <li><strong>Return & Box Tertahan Bea Cukai:</strong> Tidak menerima return barang ke seller (kecuali pembelian dari web tertentu dengan fee). Jika box return karena ada barang terlarang impor, biaya admin dibebankan ke pemilik barang tersebut.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Penagihan, Denda Pelunasan & Pengiriman Lokal -->
+          <div class="accordion-item term-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termFour">
+                💳 4. Penagihan, Denda Bayar & Pengiriman Indo
+              </button>
+            </h2>
+            <div id="termFour" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+              <div class="accordion-body small text-muted" style="line-height: 1.65;">
+                <ul class="mb-0 ps-3">
+                  <li class="mb-1"><strong>Jadwal & Tagihan:</strong> Pengiriman ke Indonesia diusahakan minimal <strong>1–2x setiap bulan</strong>. Biaya sharing ditagihkan setelah paket tiba di WH Indo dan selesai disortir.</li>
+                  <li class="mb-1"><strong>Denda Keterlambatan:</strong> Denda <strong>Rp 5.000/hari</strong> jika telat melunasi dari tenggat waktu. Lebih dari <strong>2 minggu</strong> tidak dilunasi, barang menjadi hak milik warehouse.</li>
+                  <li class="mb-1"><strong>Biaya Packing & Kurir Lokal:</strong> Biaya packing lokal <strong>Rp 3.500 – Rp 15.000</strong>. Pengiriman via Shopee, Paxel, SiCepat Reg & Cargo, J&T Cargo, Ojek Online, atau ambil di alamat WH Indo (tidak menerima kunjungan mendadak ke WH).</li>
+                  <li><strong>Kendala Kurir Lokal:</strong> Masalah kehilangan/kekurangan setelah paket diserahkan ke ekspedisi pihak ke-3 di luar tanggung jawab kami (admin akan bantu follow up semaksimal mungkin).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Video Unboxing, Batas Tanggung Jawab & Ganti Rugi -->
+          <div class="accordion-item term-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#termFive">
+                🎥 5. Video Unboxing, Batas Tanggung Jawab & Ganti Rugi
+              </button>
+            </h2>
+            <div id="termFive" class="accordion-collapse collapse" data-bs-parent="#termsAccordion">
+              <div class="accordion-body small text-muted" style="line-height: 1.65;">
+                <ul class="mb-0 ps-3">
+                  <li class="mb-1"><strong>Wajib Video Unboxing:</strong> Rekam video unboxing lengkap tanpa edit maksimal <strong>2×24 jam</strong> setelah paket diterima.</li>
+                  <li class="mb-1"><strong>Hanya Mengurus Paket Sampai WH:</strong> Kami hanya mengurus barang yang sudah sampai di warehouse. Jika terjadi kesalahan pengiriman karena salah alamat atau kurir salah kirim, dimohon untuk mengurus sendiri.</li>
+                  <li class="mb-1"><strong>Kekurangan Barang dari Seller:</strong> Jika ada kekurangan barang dari seller, dimohon untuk mengurus sendiri ke seller; kami hanya membantu menerima dan menginformasikan barang yang kami terima dari seller.</li>
+                  <li class="mb-1"><strong>Kerusakan/Kehilangan & Bea Cukai:</strong> Kerusakan & kehilangan barang pada saat pengiriman dari seller ke WH Korea maupun dari negara awal (Korea, China, Thailand) ke Indonesia karena proses bea cukai merupakan hal di luar kuasa kami dan kami tidak bertanggung jawab atas hal tersebut.</li>
+                  <li class="mb-1"><strong>Ketentuan Repack Handcarry:</strong> Untuk pengiriman menggunakan Handcarry, pemilik barang bersedia direpack / dikemas ulang (misal tag dilepas, plastik &amp; box dilipat) dengan pertimbangan barang akan dijual kembali.</li>
+                  <li class="mb-1"><strong>Syarat Ganti Rugi:</strong> Hanya dapat diproses jika:
+                    <ol class="ps-3 mt-1 mb-1">
+                      <li>Barang hilang di dalam Warehouse (Korea/China/Thailand/Indo) karena kelalaian admin (bukan kurang kirim dari seller atau salah alamat).</li>
+                      <li>Barang hilang saat pengiriman internasional ke Indonesia dan mendapatkan penggantian resmi dari pihak ekspedisi.</li>
+                    </ol>
+                  </li>
+                  <li><em>Syarat dan ketentuan dapat berubah sewaktu-waktu mengikuti kondisi yang ada.</em></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center mt-4 small text-muted">
+      <div>made with 🩷 by <strong>boninstore</strong> • Surabaya, Indonesia</div>
+    </footer>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 10050;">
+    <div id="liveToast" class="toast align-items-center border-0 rounded-4 shadow" role="alert" style="background: var(--text-main); color: var(--bg-cream);">
+      <div class="d-flex">
+        <div class="toast-body small fw-semibold" id="toastMessage">Info</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // =========================================================
+      // 1. STATE & BACKEND DATA CACHE
+      // =========================================================
+      var currentCountry = 'Korea';
+      var activeFetchId = 0;
+      var ratesData = [];
+      var isRatesLoaded = false;
+
+      // =========================================================
+      // 2. MANDATORY SECURITY & UI HELPERS
+      // =========================================================
+      function escapeHTML(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function safeDate(val) {
+        if (!val) return '-';
+        try {
+          var d = new Date(val);
+          if (isNaN(d.getTime())) return escapeHTML(String(val));
+          return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+        } catch (e) {
+          return escapeHTML(String(val));
+        }
+      }
+
+      function formatRupiah(num) {
+        var n = Number(num) || 0;
+        return 'Rp ' + n.toLocaleString('id-ID');
+      }
+
+      function showFullPageLoading(text) {
+        var el = document.getElementById('fullPageLoading');
+        var txt = document.getElementById('loadingText');
+        if (txt) txt.textContent = text || 'Memuat...';
+        if (el) el.classList.remove('d-none');
+      }
+
+      function hideFullPageLoading() {
+        var el = document.getElementById('fullPageLoading');
+        if (el) el.classList.add('d-none');
+      }
+
+      function showSectionLoading(id, isLoading) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (isLoading) el.classList.remove('d-none');
+        else el.classList.add('d-none');
+      }
+
+      function notifyToast(msg) {
+        var msgEl = document.getElementById('toastMessage');
+        var toastEl = document.getElementById('liveToast');
+        if (msgEl && toastEl) {
+          msgEl.textContent = msg;
+          bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 2800 }).show();
+        }
+      }
+
+      function handleSessionExpired(res) {
+        if (res && res.sessionExpired) {
+          notifyToast(res.message || 'Sesi berakhir.');
+          return true;
+        }
+        return false;
+      }
+
+      function checkLoginState() {
+        var mainApp = document.getElementById('mainApp');
+        if (mainApp) mainApp.classList.remove('d-none');
+      }
+
+      function handleLogin() {}
+
+      function logout() {
+        showPage('homePage');
+      }
+
+      function gasRun(funcName) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return new Promise(function(resolve, reject) {
+          var runner = google.script.run
+            .withSuccessHandler(resolve)
+            .withFailureHandler(function(err) {
+              reject(err);
+            });
+          runner[funcName].apply(runner, args);
+        });
+      }
+
+      // =========================================================
+      // 3. PAGE NAVIGATION & ISOLATION
+      // =========================================================
+      function showPage(pageId) {
+        var pages = document.querySelectorAll('.app-page');
+        pages.forEach(function(p) {
+          p.classList.add('d-none');
+        });
+
+        var target = document.getElementById(pageId);
+        if (target) {
+          target.classList.remove('d-none');
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        loadPageData(pageId);
+      }
+
+      function loadPageData(pageId) {
+        var fetchId = ++activeFetchId;
+        if (pageId === 'pricelistPage') {
+          if (isRatesLoaded && ratesData.length > 0) {
+            renderPricelistContent();
+            return;
+          }
+          showSectionLoading('pricelistLoading', true);
+          gasRun('getPublicRates')
+            .then(function(res) {
+              if (fetchId !== activeFetchId || handleSessionExpired(res)) return;
+              showSectionLoading('pricelistLoading', false);
+              if (res && res.success) {
+                ratesData = Array.isArray(res.data) ? res.data : [];
+                isRatesLoaded = true;
+                renderPricelistContent();
+              } else {
+                notifyToast((res && res.message) || 'Gagal memuat daftar tarif.');
+              }
+            })
+            .catch(function() {
+              if (fetchId !== activeFetchId) return;
+              showSectionLoading('pricelistLoading', false);
+              notifyToast('Terjadi kesalahan koneksi ke Google Sheets.');
+            });
+        } else if (pageId === 'calculatorPage') {
+          onCalcCountryChange();
+        }
+      }
+
+      // =========================================================
+      // 4. PRICELIST RENDERER (KOREA / CHINA / THAILAND)
+      // =========================================================
+      function openCountryPricelist(country) {
+        currentCountry = country || 'Korea';
+
+        var badgeEl = document.getElementById('pricelistCountryBadge');
+        var titleEl = document.getElementById('pricelistTitle');
+        var flagMap = { Korea: '🇰🇷', China: '🇨🇳', Thailand: '🇹🇭' };
+        var flag = flagMap[currentCountry] || '🌏';
+
+        if (badgeEl) badgeEl.textContent = flag + ' ' + currentCountry.toUpperCase() + ' WAREHOUSE';
+        if (titleEl) titleEl.textContent = 'Pricelist ' + currentCountry + ' Warehouse';
+
+        var pills = document.querySelectorAll('#pricelistPage .sub-pill');
+        pills.forEach(function(btn) {
+          if (btn.getAttribute('data-country') === currentCountry) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        var searchEl = document.getElementById('searchRateInput');
+        if (searchEl) searchEl.value = '';
+
+        showPage('pricelistPage');
+      }
+
+      function renderPricelistContent() {
+        var container = document.getElementById('pricelistItemsContainer');
+        if (!container) return;
+
+        var searchEl = document.getElementById('searchRateInput');
+        var query = searchEl ? searchEl.value.toLowerCase().trim() : '';
+
+        var filtered = ratesData.filter(function(item) {
+          if (item.country !== currentCountry) return false;
+          if (!query) return true;
+          var searchable = (
+            (item.category || '') + ' ' +
+            (item.subtitle || '') + ' ' +
+            (item.price || '') + ' ' +
+            JSON.stringify(item.blocks || [])
+          ).toLowerCase();
+          return searchable.indexOf(query) !== -1;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML =
+            '<div class="text-center py-4 text-muted small">' +
+              '<div class="fs-3 mb-1">🔍</div>' +
+              'Tarif tidak ditemukan' + (query ? ' untuk kata kunci <strong>' + escapeHTML(query) + '</strong>' : '.') +
+            '</div>';
+          return;
+        }
+
+        var html = filtered.map(function(rate, idx) {
+          var collapseId = 'rateCollapse_' + escapeHTML(rate.id);
+          var isOpen = query ? true : Boolean(rate.defaultOpen || idx === 0);
+
+          var blocksHtml = (rate.blocks || []).map(function(block) {
+            if (block.type === 'table') {
+              var thHtml = (block.headers || []).map(function(h, hIdx) {
+                return '<th class="' + (hIdx === 1 ? 'text-end' : '') + '">' + escapeHTML(h) + '</th>';
+              }).join('');
+
+              var rowsHtml = (block.rows || []).map(function(r) {
+                return '<tr>' +
+                  '<td>' + escapeHTML(r[0]) + '</td>' +
+                  '<td class="val-col">' + escapeHTML(r[1]) + '</td>' +
+                '</tr>';
+              }).join('');
+
+              return (
+                (block.heading ? '<div class="group-label">' + escapeHTML(block.heading) + '</div>' : '') +
+                '<table class="kv-table">' +
+                  '<thead><tr>' + thHtml + '</tr></thead>' +
+                  '<tbody>' + rowsHtml + '</tbody>' +
+                '</table>'
+              );
+            } else if (block.type === 'example') {
+              return '<div class="example-callout">' + escapeHTML(block.text).replace(/\n/g, '<br>') + '</div>';
+            } else if (block.type === 'notes') {
+              var liHtml = (block.items || []).map(function(note) {
+                return '<li>' + escapeHTML(note) + '</li>';
+              }).join('');
+              return (
+                (block.heading ? '<div class="group-label">' + escapeHTML(block.heading) + '</div>' : '') +
+                '<ul class="note-list mb-2">' + liHtml + '</ul>'
+              );
+            }
+            return '';
+          }).join('');
+
+          return (
+            '<div class="rate-accordion-item">' +
+              '<button type="button" class="rate-accordion-btn ' + (isOpen ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#' + collapseId + '">' +
+                '<div class="d-flex align-items-center gap-2 text-start">' +
+                  '<span class="fs-5">' + escapeHTML(rate.icon) + '</span>' +
+                  '<div>' +
+                    '<div class="fw-bold" style="font-size: 0.92rem; color: var(--text-main);">' + escapeHTML(rate.category) + '</div>' +
+                    '<div class="text-muted" style="font-size: 0.76rem;">' + escapeHTML(rate.subtitle) + '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="d-flex align-items-center gap-2">' +
+                  '<span class="price-tag">' + escapeHTML(rate.price) + '</span>' +
+                  '<i class="bi bi-chevron-down chevron-icon"></i>' +
+                '</div>' +
+              '</button>' +
+              '<div id="' + collapseId + '" class="collapse ' + (isOpen ? 'show' : '') + '">' +
+                '<div class="p-3 pt-2">' + blocksHtml + '</div>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+
+        container.innerHTML = html;
+      }
+
+      // =========================================================
+      // 5. SHIPPING CALCULATOR (DINAMIS PER NEGARA)
+      // =========================================================
+      var calcConfig = {
+        Korea: {
+          services: [
+            { id: 'kr_ems_umum', label: 'EMS Barang Umum (Album/PB/LS/Paper Sealed) — est. 185/gr', unit: 'gram' },
+            { id: 'kr_pc', label: 'Photocard (1-20: 3.5rb | 21-80: 2.5rb | 81+: 2rb)', unit: 'pcs' },
+            { id: 'kr_postcard', label: 'Postcard / Mini Poster (4.500/pc)', unit: 'pcs' },
+            { id: 'kr_ems_doll_10', label: 'EMS Boneka 10–13 cm (15.000/pc)', unit: 'pcs' },
+            { id: 'kr_ems_doll_15', label: 'EMS Boneka 15–18 cm (30.000/pc)', unit: 'pcs' },
+            { id: 'kr_ems_doll_20', label: 'EMS Boneka 20 cm (45.000/pc)', unit: 'pcs' },
+            { id: 'kr_ems_makeup', label: 'EMS Boneka >20cm / Makeup max 3pcs (est. 245/gr)', unit: 'gram' },
+            { id: 'kr_hc_umum', label: 'Handcarry Barang Umum (245/gr • bulat 50gr)', unit: 'gram' },
+            { id: 'kr_hc_bulky', label: 'Handcarry Barang Bulky (275/gr • bulat 50gr)', unit: 'gram' },
+            { id: 'kr_hc_doll_10', label: 'Handcarry Boneka 10–13 cm (20.000/pc)', unit: 'pcs' },
+            { id: 'kr_hc_doll_15', label: 'Handcarry Boneka 15–18 cm (35.000/pc)', unit: 'pcs' },
+            { id: 'kr_hc_doll_20', label: 'Handcarry Boneka 20 cm (50.000/pc)', unit: 'pcs' }
+          ],
+          fees: [
+            { value: '0', label: 'Box K-Pop Related / Bantaek CU & GS25 (FREE)' },
+            { value: '5000', label: 'Amplop / Polimailer / Non K-Pop (+Rp 5.000/resi)' },
+            { value: '5000', label: 'Doll / Fashion / Textile / Makeup Air Cargo (+Rp 5.000)' }
+          ]
+        },
+        China: {
+          services: [
+            { id: 'cn_cargo_umum', label: 'Cargo Barang Umum (est. 240/gr)', unit: 'gram' },
+            { id: 'cn_cargo_branded', label: 'Cargo Barang Branded / Copy (est. 260/gr)', unit: 'gram' },
+            { id: 'cn_cargo_sensitive', label: 'Cargo Barang Sensitive (est. 280/gr)', unit: 'gram' },
+            { id: 'cn_hc_umum', label: 'Handcarry Barang Umum (245/gr • bulat 50gr)', unit: 'gram' },
+            { id: 'cn_hc_bulky', label: 'Handcarry Barang Bulky (280/gr • bulat 50gr)', unit: 'gram' },
+            { id: 'cn_hc_doll_10', label: 'Handcarry Boneka 10–13 cm (17.000/pc)', unit: 'pcs' },
+            { id: 'cn_hc_doll_15', label: 'Handcarry Boneka 15–18 cm (33.000/pc)', unit: 'pcs' },
+            { id: 'cn_hc_doll_20', label: 'Handcarry Boneka 20 cm (48.000/pc)', unit: 'pcs' },
+            { id: 'cn_pc', label: 'Photocard (1-15: 5.000/pc | 16+: 4.500/pc)', unit: 'pcs' }
+          ],
+          fees: [
+            { value: '7000', label: 'Photocard & Barang Ringan < 1kg (+Rp 7.000/tracking)' },
+            { value: '3000', label: 'Barang Lain > 1kg (+Rp 3.000/kg)' }
+          ]
+        },
+        Thailand: {
+          services: [
+            { id: 'th_cargo_umum', label: 'Cargo / Handcarry Barang Umum (185/gr)', unit: 'gram' },
+            { id: 'th_doll_10', label: 'Cargo / Handcarry Boneka 10–13 cm (15.000/pc)', unit: 'pcs' },
+            { id: 'th_doll_15', label: 'Cargo / Handcarry Boneka 15–18 cm (30.000/pc)', unit: 'pcs' },
+            { id: 'th_doll_20', label: 'Cargo / Handcarry Boneka 20 cm (45.000/pc)', unit: 'pcs' },
+            { id: 'th_doll_big', label: 'Handcarry Boneka >20cm dengan Vacuum (est. 185rb–250rb)', unit: 'pcs' },
+            { id: 'th_hc_parfum', label: 'Handcarry Parfum (200/gr • bulat 50gr)', unit: 'gram' },
+            { id: 'th_pc', label: 'Photocard (1-15: 4.000/pc | 16+: 3.500/pc)', unit: 'pcs' }
+          ],
+          fees: [
+            { value: '0', label: 'Barang Lain / Box (FREE Fee WH)' },
+            { value: '5000', label: 'Paper Related Amplop & Parcel (+Rp 5.000/tracking)' }
+          ]
+        }
+      };
+
+      function onCalcCountryChange() {
+        var countryEl = document.getElementById('calcCountry');
+        var typeEl = document.getElementById('calcType');
+        var feeEl = document.getElementById('calcFeeType');
+        var qtyEl = document.getElementById('calcQty');
+        if (!countryEl || !typeEl || !feeEl) return;
+
+        var country = countryEl.value || 'Korea';
+        var cfg = calcConfig[country] || calcConfig.Korea;
+
+        typeEl.innerHTML = cfg.services.map(function(s) {
+          return '<option value="' + escapeHTML(s.id) + '" data-unit="' + escapeHTML(s.unit) + '">' + escapeHTML(s.label) + '</option>';
+        }).join('');
+
+        feeEl.innerHTML = cfg.fees.map(function(f) {
+          return '<option value="' + escapeHTML(f.value) + '">' + escapeHTML(f.label) + '</option>';
+        }).join('');
+
+        if (qtyEl) qtyEl.value = 500;
+        calculateShipping();
+      }
+
+      function roundUp50(grams) {
+        return Math.ceil(grams / 50) * 50;
+      }
+
+      function calculateShipping() {
+        var countryEl = document.getElementById('calcCountry');
+        var typeEl = document.getElementById('calcType');
+        var qtyEl = document.getElementById('calcQty');
+        var feeEl = document.getElementById('calcFeeType');
+        var labelEl = document.getElementById('calcInputLabel');
+        var totalEl = document.getElementById('calcTotalDisplay');
+        var breakEl = document.getElementById('calcBreakdownDisplay');
+
+        if (!countryEl || !typeEl || !qtyEl || !feeEl || !totalEl || !breakEl) return;
+
+        var country = countryEl.value;
+        var serviceId = typeEl.value;
+        var selectedOpt = typeEl.options[typeEl.selectedIndex];
+        var unit = selectedOpt ? selectedOpt.getAttribute('data-unit') : 'gram';
+        var rawQty = Math.max(1, parseFloat(qtyEl.value) || 0);
+
+        if (unit === 'pcs' && rawQty === 500 && !qtyEl.dataset.userEdited) {
+          rawQty = 1;
+          qtyEl.value = 1;
+        }
+        if (labelEl) {
+          labelEl.textContent = unit === 'pcs' ? 'Jumlah Barang (pcs)' : 'Berat Barang (gram)';
+        }
+
+        var baseCost = 0;
+        var detail = '';
+        var roundedGr = roundUp50(rawQty);
+
+        if (serviceId === 'kr_ems_umum') {
+          baseCost = rawQty * 185;
+          detail = rawQty + ' gr × Rp 185/gr';
+        } else if (serviceId === 'kr_pc') {
+          var krPc = rawQty <= 20 ? 3500 : (rawQty <= 80 ? 2500 : 2000);
+          baseCost = rawQty * krPc;
+          detail = rawQty + ' pcs × ' + formatRupiah(krPc) + '/pc';
+        } else if (serviceId === 'kr_postcard') {
+          baseCost = rawQty * 4500;
+          detail = rawQty + ' pcs × Rp 4.500/pc';
+        } else if (serviceId === 'kr_ems_doll_10') {
+          baseCost = rawQty * 15000;
+          detail = rawQty + ' doll × Rp 15.000';
+        } else if (serviceId === 'kr_ems_doll_15') {
+          baseCost = rawQty * 30000;
+          detail = rawQty + ' doll × Rp 30.000';
+        } else if (serviceId === 'kr_ems_doll_20') {
+          baseCost = rawQty * 45000;
+          detail = rawQty + ' doll × Rp 45.000';
+        } else if (serviceId === 'kr_ems_makeup') {
+          baseCost = rawQty * 245;
+          detail = rawQty + ' gr × Rp 245/gr';
+        } else if (serviceId === 'kr_hc_umum') {
+          baseCost = Math.max(15000, roundedGr * 245);
+          detail = rawQty + ' gr (bulat ' + roundedGr + ' gr) × Rp 245/gr (min. Rp 15.000)';
+        } else if (serviceId === 'kr_hc_bulky') {
+          baseCost = Math.max(15000, roundedGr * 275);
+          detail = rawQty + ' gr (bulat ' + roundedGr + ' gr) × Rp 275/gr (min. Rp 15.000)';
+        } else if (serviceId === 'kr_hc_doll_10') {
+          baseCost = rawQty * 20000;
+          detail = rawQty + ' doll × Rp 20.000';
+        } else if (serviceId === 'kr_hc_doll_15') {
+          baseCost = rawQty * 35000;
+          detail = rawQty + ' doll × Rp 35.000';
+        } else if (serviceId === 'kr_hc_doll_20') {
+          baseCost = rawQty * 50000;
+          detail = rawQty + ' doll × Rp 50.000';
+        } else if (serviceId === 'cn_cargo_umum') {
+          baseCost = Math.max(17000, rawQty * 240);
+          detail = rawQty + ' gr × Rp 240/gr (min. Rp 17.000)';
+        } else if (serviceId === 'cn_cargo_branded') {
+          baseCost = Math.max(17000, rawQty * 260);
+          detail = rawQty + ' gr × Rp 260/gr (min. Rp 17.000)';
+        } else if (serviceId === 'cn_cargo_sensitive') {
+          baseCost = Math.max(17000, rawQty * 280);
+          detail = rawQty + ' gr × Rp 280/gr (min. Rp 17.000)';
+        } else if (serviceId === 'cn_hc_umum') {
+          baseCost = Math.max(17000, roundedGr * 245);
+          detail = rawQty + ' gr (bulat ' + roundedGr + ' gr) × Rp 245/gr (min. Rp 17.000)';
+        } else if (serviceId === 'cn_hc_bulky') {
+          baseCost = Math.max(17000, roundedGr * 280);
+          detail = rawQty + ' gr (bulat ' + roundedGr + ' gr) × Rp 280/gr (min. Rp 17.000)';
+        } else if (serviceId === 'cn_hc_doll_10') {
+          baseCost = rawQty * 17000;
+          detail = rawQty + ' doll × Rp 17.000';
+        } else if (serviceId === 'cn_hc_doll_15') {
+          baseCost = rawQty * 33000;
+          detail = rawQty + ' doll × Rp 33.000';
+        } else if (serviceId === 'cn_hc_doll_20') {
+          baseCost = rawQty * 48000;
+          detail = rawQty + ' doll × Rp 48.000';
+        } else if (serviceId === 'cn_pc') {
+          var cnPc = rawQty <= 15 ? 5000 : 4500;
+          baseCost = rawQty * cnPc;
+          detail = rawQty + ' pcs × ' + formatRupiah(cnPc) + '/pc';
+        } else if (serviceId === 'th_cargo_umum') {
+          baseCost = Math.max(13000, roundedGr * 185);
+          detail = rawQty + ' gr (bulat HC ' + roundedGr + ' gr) × Rp 185/gr (min. Rp 13.000)';
+        } else if (serviceId === 'th_doll_10') {
+          baseCost = rawQty * 15000;
+          detail = rawQty + ' doll × Rp 15.000';
+        } else if (serviceId === 'th_doll_15') {
+          baseCost = rawQty * 30000;
+          detail = rawQty + ' doll × Rp 30.000';
+        } else if (serviceId === 'th_doll_20') {
+          baseCost = rawQty * 45000;
+          detail = rawQty + ' doll × Rp 45.000';
+        } else if (serviceId === 'th_doll_big') {
+          var minBig = rawQty * 185000;
+          var maxBig = rawQty * 250000;
+          var feeWhBig = parseInt(feeEl.value, 10) || 0;
+          totalEl.textContent = formatRupiah(minBig + feeWhBig) + ' – ' + formatRupiah(maxBig + feeWhBig);
+          breakEl.textContent = rawQty + ' doll >20cm (vacuum) est. Rp 185rb–250rb/pc + Fee WH ' + formatRupiah(feeWhBig);
+          return;
+        } else if (serviceId === 'th_hc_parfum') {
+          baseCost = Math.max(13000, roundedGr * 200);
+          detail = rawQty + ' gr (bulat ' + roundedGr + ' gr) × Rp 200/gr (min. Rp 13.000)';
+        } else if (serviceId === 'th_pc') {
+          var thPc = rawQty <= 15 ? 4000 : 3500;
+          baseCost = rawQty * thPc;
+          detail = rawQty + ' pcs × ' + formatRupiah(thPc) + '/pc';
+        }
+
+        var feeWh = parseInt(feeEl.value, 10) || 0;
+        if (country === 'China' && feeWh === 3000 && unit === 'gram' && rawQty > 1000) {
+          var extraKg = Math.ceil(rawQty / 1000);
+          feeWh = extraKg * 3000;
+        }
+
+        var total = Math.round(baseCost + feeWh);
+        totalEl.textContent = formatRupiah(total);
+        breakEl.textContent = detail + ' + Fee WH ' + formatRupiah(feeWh);
+      }
+
+      function filterTerms() {
+        var input = document.getElementById('searchTermsInput');
+        if (!input) return;
+        var q = input.value.toLowerCase().trim();
+        var items = document.querySelectorAll('#termsAccordion .term-item');
+        items.forEach(function(item) {
+          var text = item.textContent.toLowerCase();
+          var collapseEl = item.querySelector('.accordion-collapse');
+          if (!q) {
+            item.classList.remove('d-none');
+          } else if (text.indexOf(q) !== -1) {
+            item.classList.remove('d-none');
+            if (collapseEl && !collapseEl.classList.contains('show')) {
+              collapseEl.classList.add('show');
+            }
+          } else {
+            item.classList.add('d-none');
+          }
+        });
+      }
+
+      // =========================================================
+      // 6. EXPOSE GLOBAL & INIT
+      // =========================================================
+      window.showPage = showPage;
+      window.openCountryPricelist = openCountryPricelist;
+      window.renderPricelistContent = renderPricelistContent;
+      window.onCalcCountryChange = onCalcCountryChange;
+      window.calculateShipping = calculateShipping;
+      window.filterTerms = filterTerms;
+      window.notifyToast = notifyToast;
+      window.logout = logout;
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var qtyInput = document.getElementById('calcQty');
+        if (qtyInput) {
+          qtyInput.addEventListener('input', function() {
+            qtyInput.dataset.userEdited = 'true';
+          });
+        }
+        onCalcCountryChange();
+        checkLoginState();
+        showPage('homePage');
+      });
+    })();
+  </script>
+</body>
+</html>
