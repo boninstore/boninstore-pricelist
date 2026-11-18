@@ -1013,31 +1013,67 @@
         loadPageData(pageId);
       }
 
-      function loadPageData(pageId) {
+      function fetchRatesFromServer(forceRefresh) {
         var fetchId = ++activeFetchId;
-        if (pageId === 'pricelistPage') {
-          if (isRatesLoaded && ratesData.length > 0) {
-            renderPricelistContent();
-            return;
-          }
-          showSectionLoading('pricelistLoading', true);
-          gasRun('getPublicRates')
-            .then(function(res) {
-              if (fetchId !== activeFetchId || handleSessionExpired(res)) return;
-              showSectionLoading('pricelistLoading', false);
-              if (res && res.success) {
-                ratesData = Array.isArray(res.data) ? res.data : [];
-                isRatesLoaded = true;
-                renderPricelistContent();
-              } else {
-                notifyToast((res && res.message) || 'Gagal memuat daftar tarif.');
+        var container = document.getElementById('pricelistItemsContainer');
+
+        if (!forceRefresh && isRatesLoaded && ratesData.length > 0) {
+          renderPricelistContent();
+          return;
+        }
+
+        if (container) {
+          container.innerHTML = '';
+        }
+        showSectionLoading('pricelistLoading', true);
+
+        gasRun('getPublicRates')
+          .then(function(res) {
+            if (fetchId !== activeFetchId || handleSessionExpired(res)) return;
+            showSectionLoading('pricelistLoading', false);
+            if (res && res.success) {
+              ratesData = Array.isArray(res.data) ? res.data : [];
+              isRatesLoaded = true;
+              renderPricelistContent();
+            } else {
+              var errMsg = (res && res.message) ? res.message : 'Gagal memuat daftar tarif dari server.';
+              notifyToast(errMsg);
+              if (container) {
+                container.innerHTML =
+                  '<div class="text-center py-4 small">' +
+                    '<div class="fs-3 mb-1">⚠️</div>' +
+                    '<div class="fw-bold text-danger mb-1">Data Tarif Belum Tersedia</div>' +
+                    '<div class="text-muted mb-3">' + escapeHTML(errMsg) + '</div>' +
+                    '<button type="button" class="btn btn-sm btn-rose-cute" onclick="window.retryLoadRates()">Coba Muat Ulang</button>' +
+                  '</div>';
               }
-            })
-            .catch(function() {
-              if (fetchId !== activeFetchId) return;
-              showSectionLoading('pricelistLoading', false);
-              notifyToast('Terjadi kesalahan koneksi ke Google Sheets.');
-            });
+            }
+          })
+          .catch(function(err) {
+            if (fetchId !== activeFetchId) return;
+            showSectionLoading('pricelistLoading', false);
+            var detailErr = (err && err.message) ? err.message : 'Pastikan setupDatabase() sudah dijalankan & Web App di-deploy dengan Execute as: Me.';
+            notifyToast('Koneksi gagal: ' + detailErr);
+            if (container) {
+              container.innerHTML =
+                '<div class="text-center py-4 small">' +
+                  '<div class="fs-3 mb-1">🔌</div>' +
+                  '<div class="fw-bold text-danger mb-1">Gagal Terhubung ke Google Sheets</div>' +
+                  '<div class="text-muted mb-3">' + escapeHTML(detailErr) + '</div>' +
+                  '<button type="button" class="btn btn-sm btn-rose-cute" onclick="window.retryLoadRates()">Coba Muat Ulang</button>' +
+                '</div>';
+            }
+          });
+      }
+
+      function retryLoadRates() {
+        isRatesLoaded = false;
+        fetchRatesFromServer(true);
+      }
+
+      function loadPageData(pageId) {
+        if (pageId === 'pricelistPage') {
+          fetchRatesFromServer(false);
         } else if (pageId === 'calculatorPage') {
           onCalcCountryChange();
         }
@@ -1408,6 +1444,7 @@
       window.showPage = showPage;
       window.openCountryPricelist = openCountryPricelist;
       window.renderPricelistContent = renderPricelistContent;
+      window.retryLoadRates = retryLoadRates;
       window.onCalcCountryChange = onCalcCountryChange;
       window.calculateShipping = calculateShipping;
       window.filterTerms = filterTerms;
@@ -1424,6 +1461,15 @@
         onCalcCountryChange();
         checkLoginState();
         showPage('homePage');
+        // Pre-fetch rates di latar belakang agar saat diklik langsung muncul
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          gasRun('getPublicRates').then(function(res) {
+            if (res && res.success && Array.isArray(res.data)) {
+              ratesData = res.data;
+              isRatesLoaded = true;
+            }
+          }).catch(function() {});
+        }
       });
     })();
   </script>
