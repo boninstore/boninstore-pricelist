@@ -902,6 +902,9 @@
       // =========================================================
       // 1. STATE & BACKEND DATA CACHE
       // =========================================================
+      // Tempelkan URL Web App (/exec) dari Google Apps Script Anda di bawah ini:
+      var GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw_x0qR3m9uOTymi1B_aGQVkUL7jKCYi1UpaW5JRXfRQ9hAdlX5fjhCLKTSuhpgUN6i/exec';
+
       var currentCountry = 'Korea';
       var activeFetchId = 0;
       var ratesData = [];
@@ -986,16 +989,52 @@
       function gasRun(funcName) {
         var args = Array.prototype.slice.call(arguments, 1);
         return new Promise(function(resolve, reject) {
-          if (typeof google === 'undefined' || !google.script || !google.script.run) {
-            reject(new Error('Lingkungan Google Apps Script belum siap. Buka melalui link Web App (/exec).'));
+          // 1. Jika dibuka langsung di dalam Google Apps Script
+          if (typeof google !== 'undefined' && google.script && google.script.run) {
+            var runner = google.script.run
+              .withSuccessHandler(resolve)
+              .withFailureHandler(function(err) {
+                reject(err);
+              });
+            runner[funcName].apply(runner, args);
             return;
           }
-          var runner = google.script.run
-            .withSuccessHandler(resolve)
-            .withFailureHandler(function(err) {
+
+          // 2. Jika di-host di Vercel / GitHub Pages (menggunakan fetch ke GAS API)
+          if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.indexOf('https://script.google.com/') !== 0) {
+            reject(new Error('URL Web App Google Apps Script belum diisi pada variabel GAS_WEB_APP_URL.'));
+            return;
+          }
+
+          var bodyPayload = { action: funcName };
+          if (funcName === 'loginUser') {
+            bodyPayload.username = args[0];
+            bodyPayload.password = args[1];
+          } else if (funcName === 'saveRateItem') {
+            bodyPayload.token = args[0];
+            bodyPayload.data = args[1];
+          } else if (funcName === 'deleteRateItem') {
+            bodyPayload.token = args[0];
+            bodyPayload.rateId = args[1];
+          }
+
+          fetch(GAS_WEB_APP_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify(bodyPayload)
+          })
+            .then(function(response) {
+              if (!response.ok) {
+                throw new Error('HTTP Error: ' + response.status);
+              }
+              return response.json();
+            })
+            .then(resolve)
+            .catch(function(err) {
               reject(err);
             });
-          runner[funcName].apply(runner, args);
         });
       }
 
@@ -1466,14 +1505,12 @@
         checkLoginState();
         showPage('homePage');
         // Pre-fetch rates di latar belakang agar saat diklik langsung muncul
-        if (typeof google !== 'undefined' && google.script && google.script.run) {
-          gasRun('getPublicRates').then(function(res) {
-            if (res && res.success && Array.isArray(res.data)) {
-              ratesData = res.data;
-              isRatesLoaded = true;
-            }
-          }).catch(function() {});
-        }
+        gasRun('getPublicRates').then(function(res) {
+          if (res && res.success && Array.isArray(res.data)) {
+            ratesData = res.data;
+            isRatesLoaded = true;
+          }
+        }).catch(function() {});
       });
     })();
   </script>
